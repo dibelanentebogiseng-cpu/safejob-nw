@@ -1,59 +1,91 @@
-document.addEventListener('contextmenu',e=>e.preventDefault());
-const DEFAULT_PIN="2468";
-function showCreate(){
-  document.getElementById('login-form').style.display='none';
-  document.getElementById('create-form').style.display='block';
-}
-function showLogin(){
-  document.getElementById('create-form').style.display='none';
-  document.getElementById('login-form').style.display='block';
-}
+// SafeJob NW - Works 100% offline
 function createUser(){
-  let name=document.getElementById('newName').value;
-  let area=document.getElementById('newArea').value;
-  let pin=document.getElementById('newPin').value;
-  let cpin=document.getElementById('confirmPin').value;
-  if(!name||!area||!pin){alert('Please fill all fields');return}
-  if(pin!==cpin){alert('PINs dont match');return}
-  if(pin.length<4){alert('PIN must be 4 digits');return}
-  localStorage.setItem('safejob_user',JSON.stringify({name,area,pin}));
-  alert('✅ Account created for '+name+'! Now Login with your PIN');
-  showLogin();
+  const name = document.getElementById('fullName').value.trim();
+  const pin = document.getElementById('pin').value.trim();
+  if(!name ||!pin){ alert('Please enter Full Name and 4-digit PIN'); return; }
+  if(pin.length < 4){ alert('PIN must be 4 digits'); return; }
+  localStorage.setItem('sj_name', name);
+  localStorage.setItem('sj_pin', pin);
+  alert('User created! Now Login');
+}
+
+function login(){
+  const name = document.getElementById('fullName').value.trim();
+  const pin = document.getElementById('pin').value.trim();
+  const savedName = localStorage.getItem('sj_name');
+  const savedPin = localStorage.getItem('sj_pin');
+  if(!savedName){ alert('No user found. Please Create User first.'); return; }
+  if(name!== savedName || pin!== savedPin){ alert('Name or PIN not correct. Try again.'); return; }
+  document.getElementById('login-page').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('welcome-msg').innerText = `Hello, ${savedName} • Verified`;
+  document.getElementById('greeting').innerText = `Qaphela, ${savedName}!`;
+  showReports();
+}
+
+function logout(){
+  document.getElementById('dashboard').classList.add('hidden');
+  document.getElementById('login-page').classList.remove('hidden');
+  document.getElementById('fullName').value = '';
+  document.getElementById('pin').value = '';
 }
 function forgotPin(){
-  let u=JSON.parse(localStorage.getItem('safejob_user')||'null');
-  if(u){alert('🔑 Your PIN is: '+u.pin+'\nName: '+u.name);}else{alert('Default account: Ntebogiseng Dibelane\nPIN: 2468\nOr create new user');}
+  const savedPin = localStorage.getItem('sj_pin');
+  if(savedPin){ alert('Your PIN hint: ' + savedPin[0] + '***. If you forgot, create new user.'); }
+  else { alert('No user saved yet.'); }
 }
-function login(){
-  let pin=document.getElementById('loginPin').value;
-  let nameIn=document.getElementById('loginName').value;
-  let saved=JSON.parse(localStorage.getItem('safejob_user')||'null');
-  let validPin=saved?saved.pin:DEFAULT_PIN;
-  let validName=saved?saved.name:"Ntebogiseng Dibelane";
-  let validArea=saved?saved.area:"Rustenburg";
-  if(pin===validPin){
-    document.getElementById('login-screen').classList.remove('active');
-    document.getElementById('main-screen').classList.add('active');
-    document.getElementById('welcomeName').innerText="Welcome, "+(nameIn||validName);
-    document.getElementById('welcomeArea').innerText=validArea;
-  }else{alert('Wrong PIN! Try 2468 or create new user');}
+function showTab(tabName){
+  document.querySelectorAll('[id^="tab-"]').forEach(el=>el.classList.add('hidden'));
+  document.getElementById('tab-'+tabName).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
 }
-function logout(){document.getElementById('main-screen').classList.remove('active');document.getElementById('login-screen').classList.add('active');}
-function openSection(s){
-  document.querySelectorAll('.section').forEach(el=>el.classList.remove('active-sec'));
-  document.querySelectorAll('.m-tab').forEach(b=>b.classList.remove('active-m'));
-  document.getElementById('sec-'+s).classList.add('active-sec');
-  event.target.classList.add('active-m');
+
+// SAFE OFFLINE CHECK - No need for scam links, we check keywords
+function checkJob(){
+  const text = document.getElementById('jobInput').value.toLowerCase();
+  const resultBox = document.getElementById('result');
+  if(!text){ resultBox.innerHTML = 'Please paste advert first.'; return; }
+
+  let score = 0;
+  let reasons = [];
+  const redFlags = [
+    ['pay r', 'pay money', 'upfront fee', 'registration fee', 'r200', 'r150', 'r300', 'uniform fee'],
+    ['whatsapp only', 'whatsapp me', 'inbox me', 'no interview'],
+    ['urgent', 'immediately', 'today only', 'limited'],
+    ['gmail.com', 'yahoo.com', 'no company'],
+    ['work from home and earn r', 'earn r5000 per day']
+  ];
+  if(text.includes('pay') || text.includes('fee') || text.includes('r200')){ score+=3; reasons.push('Asks for money'); }
+  if(text.includes('whatsapp') &&!text.includes('co.za')){ score+=2; reasons.push('WhatsApp only contact'); }
+  if(text.includes('gmail.com') || text.includes('yahoo')){ score+=1; reasons.push('Uses Gmail not company email'); }
+  if(text.includes('urgent') || text.includes('immediately')){ score+=1; reasons.push('Pressure: urgent hiring'); }
+
+  if(score >= 3){
+    resultBox.className = 'result-box scam';
+    resultBox.innerHTML = `🔴 <b>POSSIBLE SCAM - Qaphela!</b><br><br>Reasons: ${reasons.join(', ')}<br><br>Advice: Do not pay, do not go alone. Verify at Dept of Labour Rustenburg.`;
+  } else if(score >=1){
+    resultBox.className = 'result-box';
+    resultBox.style.borderColor = 'orange'; resultBox.style.color = '#b45309';
+    resultBox.innerHTML = `🟡 <b>Be Careful</b><br><br>Found: ${reasons.join(', ')}<br><br>Ask for company address and call them.`;
+  } else {
+    resultBox.className = 'result-box safe';
+    resultBox.innerHTML = `🟢 <b>Looks Safer</b><br><br>No common scam signs found.<br>Still verify company address before you go.`;
+  }
 }
-function toggleDrop(id){let el=document.getElementById(id);el.style.display=el.style.display==='none'?'block':'none';}
-function checkLink(){
-  let link=document.getElementById('jobLink').value.toLowerCase();
-  let res=document.getElementById('result');
-  if(!link){res.innerHTML="<p style='color:red'>Paste link!</p>";return}
-  if(link.includes('whatsapp')&&link.includes('fee')||link.includes('pay')&&link.includes('job')){res.innerHTML="<p style='color:red;font-weight:bold'>❌ SCAM! Don't pay!</p>";}
-  else if(link.includes('pnet')||link.includes('indeed')||link.includes('shoprite')){res.innerHTML="<p style='color:green;font-weight:bold'>✅ REAL - 5/5 - People got interview</p>";}
-  else{res.innerHTML="<p style='color:orange'>⚠️ Check company site directly</p>";}
+
+function reportScam(){
+  const link = document.getElementById('reportLink').value.trim();
+  if(!link){ alert('Paste number or link first'); return; }
+  let reports = JSON.parse(localStorage.getItem('sj_reports') || '[]');
+  reports.push({text:link, date:new Date().toLocaleString()});
+  localStorage.setItem('sj_reports', JSON.stringify(reports));
+  document.getElementById('reportLink').value='';
+  showReports();
 }
-function filterStories(t){document.querySelectorAll('.filter-btns button').forEach(b=>b.classList.remove('active-filter'));event.target.classList.add('active-filter');document.querySelectorAll('.story').forEach(s=>{s.style.display=(t==='all'||s.dataset.type===t)?'block':'none'});}
-function addStory(){let n=prompt("Name & Area:");let l=prompt("Link:");let r=prompt("Got Interview/Job/Attended:");if(!n)return;let type=r.toLowerCase().includes('job')?'job':r.toLowerCase().includes('attended')?'attended':'interview';let d=document.createElement('div');d.className='story';d.dataset.type=type;d.innerHTML=`<b>${n}</b><p class="s-link">${l}</p><div class="s-badge ${type}">✔ ${r.toUpperCase()}</div>`;document.getElementById('stories-list').prepend(d);}
-window.onload=()=>{if('serviceWorker' in navigator)navigator.serviceWorker.register('service-worker.js')}
+function showReports(){
+  let reports = JSON.parse(localStorage.getItem('sj_reports') || '[]');
+  const div = document.getElementById('reportList');
+  if(!div) return;
+  div.innerHTML = reports.map(r=>`<p style="background:#f1f5f9;padding:8px;border-radius:8px">⚠️ ${r.text}<br><small>${r.date}</small></p>`).join('');
+}
