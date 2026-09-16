@@ -2,22 +2,18 @@
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SafeJob NW</title><link rel="stylesheet" href="style.css"><link rel="manifest" href="manifest.json"></head>
 <body>
-<div class="top-bar">Protected System | Ntebogiseng Dibelane © 2026 | ID: NW-2026-SJNW-771</div>
+<div class="top-bar">Ntebogiseng Dibelane © 2026 | SafeJob NW | ID: NW-2026-SJNW-771 | Protected</div>
 
-<div id="login-page" class="card" style="margin-top:40px">
-  <h1 class="logo">SafeJob NW</h1>
-  <p class="subtitle">Job Scam Protection - North West</p>
-  <input type="text" id="fullName" placeholder="Full Name">
-  <input type="password" id="pin" placeholder="Enter 4-digit PIN" maxlength="4" inputmode="numeric">
-  <button class="btn-primary" onclick="login()">Login</button>
-  <button class="btn-secondary" onclick="createUser()">Create User</button>
-  <a href="#" onclick="forgotPin()" class="link">Forgot PIN?</a>
-  <p class="small">Offline • Secure • SJNW-2026<br>Protected by Ntebogiseng Dibelane</p>
+<div id="login-page" class="card" style="margin-top:48px;max-width:400px;margin-left:auto;margin-right:auto">
+  <h1 class="logo">SafeJob NW</h1><p class="subtitle">Job Scam Protection - North West</p>
+  <input type="text" id="fullName" placeholder="Full Name"><input type="password" id="pin" placeholder="Enter 4-digit PIN" maxlength="4" inputmode="numeric">
+  <button class="btn-primary" onclick="login()">Login</button><button class="btn-secondary" onclick="createUser()">Create User</button>
+  <a href="#" onclick="forgotPin()" class="link">Forgot PIN?</a><p class="small">OFFLINE SECURE SYSTEM<br>Protected by Ntebogiseng Dibelane 2026</p>
 </div>
 
 <div id="dashboard" class="hidden">
-  <div class="header"><div class="avatar">S</div><div><h2>SafeJob <span>NW</span></h2><p id="welcome-msg"></p></div><button class="logout" onclick="logout()">Logout</button></div>
-  <div class="badge">Works offline - Zero data needed - Verified System</div>
+  <div class="header"><div class="avatar">S</div><div><h2>SafeJob NW</h2><p id="welcome-msg"></p></div><button class="logout" onclick="logout()">Logout</button></div>
+  <div class="badge">Works offline - Zero data - Verified - Protected</div>
   <div class="tabs">
     <button class="tab active" onclick="showTab('check', this)">Check</button>
     <button class="tab" onclick="showTab('stories', this)">References</button>
@@ -25,38 +21,42 @@
     <button class="tab" onclick="showTab('safety', this)">Safety</button>
   </div>
 
-  <div id="tab-check" class="card">
-    <h3 id="greeting" style="margin-top:0"></h3>
-    <p style="color:#4b5563;font-size:14px;line-height:1.5">Paste the job advert from WhatsApp or Facebook. We scan it before you spend taxi money.</p>
-    <textarea id="jobInput" rows="4" placeholder="Paste advert or job link here..."></textarea>
-    <button class="btn-primary" style="margin-top:12px" onclick="checkJob()">Check Now</button>
-    <div id="result" class="result-box">Your safety result will appear here</div>
+  <div id="tab-check" class="card"><h3 id="greeting" style="margin:0 0 8px;font-size:16px;font-weight:700"></h3>
+    <p style="color:#6b7280;font-size:13px;line-height:1.5;margin-top:0">Paste the job advert from WhatsApp or Facebook. We scan before you pay taxi.</p>
+    <textarea id="jobInput" rows="4" placeholder="Paste advert or link here..."></textarea>
+    <button class="btn-primary" style="margin-top:12px" onclick="checkJob()">Check Now</button><div id="result" class="result-box">Result will appear here.</div>
   </div>
 
-  <div id="tab-stories" class="card hidden">
-    <h3 style="margin-top:0">Verified References</h3>
-    <p style="font-size:13px;color:#059669;font-weight:600;margin-top:0">Proof of use - Rustenburg community</p>
-    <div id="storiesList"></div>
-    <div class="cert-box"><b>System Protection Certificate</b><br>Application: SafeJob NW<br>Developer: Ntebogiseng Dibelane<br>ID: NW-2026-SJNW-771<br>Status: Protected and Verified - 2026<br>Region: Rustenburg, North West</div>
-  </div>
+  <div id="tab-stories" class="card hidden"><h3 style="margin:0;font-weight:700">Verified References</h3><p style="font-size:12px;color:#6b7280;margin:6px 0 16px">Community feedback - Proof of legitimate use</p><div id="storiesList"></div><div class="cert-box"><b>PROTECTION CERTIFICATE</b><br>App: SafeJob NW<br>Developer: Ntebogiseng Dibelane<br>ID: NW-2026-SJNW-771<br>Status: Protected 2026<br>Region: Rustenburg, North West</div></div>
 
-  <div id="tab-verify" class="card hidden">
-    <h3 style="margin-top:0">How to Verify a Job</h3><ul class="list">
-      <li>Real job has physical address and landline number</li>
-      <li>Company email uses .co.za domain, not Gmail</li>
-      <li>Never pay R150 / R200 / R300 for uniform or training</li>
-      <li>WhatsApp-only interview is not legitimate</li>
-    </ul>
-    <h4 style="font-size:14px">Report Scam</h4>
-    <input type="text" id="reportLink" placeholder="Scam number or link">
-    <button class="btn-primary" onclick="reportScam()">Save Report Offline</button><div id="reportList" style="margin-top:12px"></div>
+  <div id="tab-verify" class="card hidden"><h3 style="margin:0;font-weight:700">Verification Checklist</h3><p style="font-size:12px;color:#6b7280">Tick each item before you go for interview</p>
+    <div id="verifyChecklist">
+      <div class="check-item"><input type="checkbox" id="c1" onchange="saveCheck()"><label for="c1"><b>Physical address exists</b>Job has real street address, not just location pin</label></div>
+      <div class="check-item"><input type="checkbox" id="c2" onchange="saveCheck()"><label for="c2"><b>Landline or company email</b>Email ends with.co.za, has company website</label></div>
+      <div class="check-item"><input type="checkbox" id="c3" onchange="saveCheck()"><label for="c3"><b>No upfront payment</b>No R150 / R200 / R300 for uniform, training, or application</label></div>
+      <div class="check-item"><input type="checkbox" id="c4" onchange="saveCheck()"><label for="c4"><b>Formal interview process</b>Not only WhatsApp call, has HR contact</label></div>
+    </div>
+    <div id="checkProgress" style="margin:14px 0;font-size:12px;font-weight:600"></div>
+    <h4 style="font-size:13px;margin-top:24px">Report Scam</h4><input type="text" id="reportLink" placeholder="Paste scam number or link"><button class="btn-primary" onclick="reportScam()">Save Report Offline</button><div id="reportList" style="margin-top:12px"></div>
   </div>
 
   <div id="tab-safety" class="card hidden">
-    <h3 style="margin-top:0">Safety Guidelines</h3>
-    <p style="font-size:14px;line-height:1.7;color:#374151">1. Never pay for a job.<br>2. Verify at Department of Labour Rustenburg.<br>3. Do not go alone to an interview.<br>4. Inform family of interview location.<br>5. Always check with SafeJob NW before travelling.</p>
+    <h3 style="margin:0;font-weight:700">Safety Centre - Rustenburg</h3>
+    <div style="margin-top:16px">
+      <div class="check-item"><input type="checkbox" id="s1" onchange="saveSafety()"><label for="s1"><b>Never pay to get a job</b>Legitimate employers never ask for money.</label></div>
+      <div class="check-item"><input type="checkbox" id="s2" onchange="saveSafety()"><label for="s2"><b>Verify at Department of Labour</b>Call Rustenburg Labour Centre: 014 591 1400</label></div>
+      <div class="check-item"><input type="checkbox" id="s3" onchange="saveSafety()"><label for="s3"><b>Do not go alone</b>Go with family member, share location live.</label></div>
+      <div class="check-item"><input type="checkbox" id="s4" onchange="saveSafety()"><label for="s4"><b>Inform family</b>Tell someone where you are going and when you will return.</label></div>
+      <div class="check-item"><input type="checkbox" id="s5" onchange="saveSafety()"><label for="s5"><b>Check advert first</b>Use SafeJob NW check before paying taxi fare.</label></div>
+    </div>
+    <div style="margin-top:24px;border-top:1px solid #e5e7eb;padding-top:20px">
+      <h4 style="font-size:13px;font-weight:700;margin:0 0 8px">Send Feedback</h4>
+      <p style="font-size:12px;color:#6b7280;margin-top:0">Was this helpful? Your feedback is saved offline.</p>
+      <textarea id="feedbackInput" rows="3" placeholder="Type your experience..."></textarea>
+      <button class="btn-secondary" onclick="sendFeedback()">Send Feedback</button><div id="feedbackList" style="margin-top:12px"></div>
+    </div>
   </div>
-  <p class="footer">Protected by Ntebogiseng Dibelane © 2026 | SafeJob NW | Verified & Secure | Rustenburg</p>
+  <p class="footer">Protected by Ntebogiseng Dibelane © 2026 | SafeJob NW | Verified & Secure</p>
 </div>
 <script src="app.js"></script>
 </body>
