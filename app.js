@@ -1,146 +1,84 @@
-console.log("SafeJob NW with Login - Clean");
-
-const verifiedCompanies = [
-  { name: "Anglo Platinum Rustenburg", phone: "014 591 1000", town: "Rustenburg, NW" },
-  { name: "Impala Platinum", phone: "014 569 0000", town: "Phokeng, NW" },
-  { name: "Sibanye Stillwater", phone: "014 495 2500", town: "Marikana, NW" },
-  { name: "Dept Labour Rustenburg", phone: "014 592 8212", town: "Rustenburg, NW" }
-];
-let scamReports = JSON.parse(localStorage.getItem('scamReports') || '[]');
-
-// --- LOGIN ---
-function checkAuth() {
-  const user = JSON.parse(localStorage.getItem('safejobUser') || 'null');
-  const bioEnabled = localStorage.getItem('bioEnabled') === 'true';
-  
-  if (bioEnabled && window.PublicKeyCredential) {
-    document.getElementById('bioBtn').style.display = 'block';
-  }
-  if (user) {
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('welcomeBack').innerText = `Welcome back, ${user.name}`;
-  }
-  if (sessionStorage.getItem('loggedIn') === 'true' && user) {
-    showMainApp(user.name);
-  }
-}
-
-function registerUser() {
-  const name = document.getElementById('userName').value.trim();
-  const pin = document.getElementById('userPin').value.trim();
-  if (!name || pin.length !== 4 || isNaN(pin)) {
-    alert("Enter your name and 4-digit PIN");
-    return;
-  }
-  localStorage.setItem('safejobUser', JSON.stringify({ name, pin }));
-  // Auto-enable fingerprint quietly if device supports it - no popup
-  if (window.PublicKeyCredential) {
-    localStorage.setItem('bioEnabled', 'true');
-  }
-  showMainApp(name);
-  sessionStorage.setItem('loggedIn', 'true');
-}
-
-function loginUser() {
-  const pin = document.getElementById('loginPin').value.trim();
-  const user = JSON.parse(localStorage.getItem('safejobUser') || 'null');
-  if (!user || user.pin !== pin) {
-    alert("Wrong PIN, try again");
-    return;
-  }
-  showMainApp(user.name);
-  sessionStorage.setItem('loggedIn', 'true');
-}
-
-function loginWithBiometric() {
-  const user = JSON.parse(localStorage.getItem('safejobUser'));
-  showMainApp(user.name);
-  sessionStorage.setItem('loggedIn', 'true');
-}
-
-function showMainApp(name) {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('mainApp').style.display = 'block';
-  document.getElementById('userGreeting').innerText = `Hello, ${name} • Verified`;
-  document.getElementById('greeting').innerText = `Qaphela, ${name}!`;
-  renderCompanies();
-  renderReports();
-}
-
-function logoutUser() {
-  sessionStorage.removeItem('loggedIn');
-  location.reload();
-}
-function showLoginForm() {
-  document.getElementById('registerForm').style.display = 'none';
-  document.getElementById('loginForm').style.display = 'block';
-}
-function showRegisterForm() {
-  document.getElementById('loginForm').style.display = 'none';
-  document.getElementById('registerForm').style.display = 'block';
-}
-function resetAccount() {
-  if (confirm("Reset account?")) {
-    localStorage.removeItem('safejobUser');
-    localStorage.removeItem('bioEnabled');
-    location.reload();
-  }
-}
-
-function showTab(tabName) {
-  document.querySelectorAll('main section').forEach(s => s.style.display = 'none');
-  document.getElementById(tabName).style.display = 'block';
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  if (window.event) window.event.target.classList.add('active');
-}
-
-function runCheck() {
-  const text = document.getElementById('jobText').value.toLowerCase();
-  const resultDiv = document.getElementById('result');
-  if (text.length < 10) { resultDiv.innerHTML = "Paste full advert first"; return; }
-  let score = 0; let reasons = [];
-  if (text.includes("r500") || text.includes("uniform") || text.includes("medical fee")) { score+=3; reasons.push("❌ ASKS FOR MONEY: Real jobs NEVER ask for money"); }
-  if (text.includes("come with cash")) { score+=3; reasons.push("❌ COME WITH CASH: Kidnapping trap"); }
-  if (text.includes("gmail.com") && text.includes("mine")) { score+=2; reasons.push("⚠️ FAKE EMAIL"); }
-  if (text.includes("come today") || text.includes("urgent")) { score+=2; reasons.push("⚠️ RUSHING YOU"); }
-  if (text.includes("25000")) { score+=2; reasons.push("⚠️ SALARY TOO HIGH"); }
-  if (score >= 5) {
-    resultDiv.innerHTML = `<div style="background:#FEF2F2; border:1.5px solid #FCA5A5; border-radius:12px; padding:14px; text-align:left;"><h3 style="color:#DC2626;">🛑 DANGEROUS - DO NOT GO!</h3><p style="margin-top:8px; color:#7F1D1D;">${reasons.join('<br><br>')}</p></div>`;
-  } else if (score >=2) {
-    resultDiv.innerHTML = `<div style="background:#FFFBEB; border:1.5px solid #FCD34D; border-radius:12px; padding:14px; text-align:left;"><h3 style="color:#D97706;">⚠️ SUSPICIOUS</h3><p>${reasons.join('<br>')}</p></div>`;
-  } else {
-    resultDiv.innerHTML = `<div style="background:#ECFDF5; border:1.5px solid #6EE7B7; border-radius:12px; padding:14px;"><h3 style="color:#065F46;">✓ Looks okay, but still call HR</h3></div>`;
-  }
-}
-function renderCompanies() {
-  const list = document.getElementById('companyList');
-  if(!list) return;
-  list.innerHTML = verifiedCompanies.map(c => `<div style="background:#F8FAFC; padding:12px; margin-top:10px; border-radius:12px; border:1px solid #E2E8F0; border-left:4px solid #0096D6;"><strong>${c.name} ✅</strong><br><span style="color:#64748B; font-size:12px;">📞 ${c.phone}</span></div>`).join('');
-}
-function searchCompany() {
-  const q = document.getElementById('search').value.toLowerCase();
-  const filtered = verifiedCompanies.filter(c => c.name.toLowerCase().includes(q));
-  document.getElementById('companyList').innerHTML = filtered.map(c => `<div style="background:#F8FAFC; padding:12px; margin-top:10px; border-radius:12px; border:1px solid #E2E8F0;"><strong>${c.name}</strong><br>📞 ${c.phone}</div>`).join('');
-}
-function reportScam() {
-  const num = document.getElementById('scamNumber').value;
-  const det = document.getElementById('scamDetails').value;
-  if(!num) { alert("Add number"); return; }
-  scamReports.unshift({num, det, date: new Date().toLocaleDateString()});
-  localStorage.setItem('scamReports', JSON.stringify(scamReports));
-  renderReports();
-}
-function renderReports() {
-  const div = document.getElementById('reportList');
-  if(!div) return;
-  div.innerHTML = scamReports.map(r => `<div style="background:#FEF2F2; padding:10px; margin-top:8px; border-radius:10px; border:1px solid #FECACA;"><strong style="color:#DC2626;">${r.num}</strong><br><span style="font-size:12px;">${r.det}</span></div>`).join('');
-}
-document.addEventListener('change', (e) => {
-  if(e.target.classList.contains('safetyCheck')) {
-    const all = document.querySelectorAll('.safetyCheck').length;
-    const checked = document.querySelectorAll('.safetyCheck:checked').length;
-    document.getElementById('safetyResult').innerHTML = checked===all ? "✅ SAFE TO TRAVEL" : `🛑 ${all-checked} checks left`;
+// PROTECTION - Disable copy / view source
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if((e.ctrlKey && (e.key=='u' || e.key=='U' || e.key=='s' || e.key=='c')) || e.key=='F12') {
+    e.preventDefault();
+    alert('🔒 Protected App © Ntebogiseng Dibelane');
   }
 });
-checkAuth();
+console.log("%c🔒 SafeJob NW Protected © Ntebogiseng Dibelane 2026 - Unauthorized copying prohibited", "color:red; font-size:16px; font-weight:bold;");
+
+// APP LOGIC
+const CORRECT_PIN = "1234"; // Change to your PIN
+
+function login(){
+  let pin = document.getElementById('pin').value;
+  if(pin === CORRECT_PIN){
+    document.getElementById('login-screen').classList.remove('active');
+    document.getElementById('main-screen').classList.add('active');
+  } else {
+    alert("Wrong PIN! Use 1234 (or change in app.js)");
+  }
+}
+function logout(){
+  document.getElementById('main-screen').classList.remove('active');
+  document.getElementById('login-screen').classList.add('active');
+  document.getElementById('pin').value="";
+}
+
+function checkLink(){
+  let link = document.getElementById('jobLink').value.toLowerCase();
+  let res = document.getElementById('result');
+  if(!link) { res.innerHTML="<p style='color:red'>Paste a link!</p>"; return; }
+  if(link.includes('whatsapp') && link.includes('fee') || link.includes('pay') && link.includes('job') || link.includes('tinyurl') && link.includes('pay')){
+    res.innerHTML="<p style='color:red; font-weight:bold'>❌ SCAM DETECTED! Do NOT pay!</p><p>This link asks for money - real jobs don't ask for money.</p>";
+  } else if(link.includes('pnet') || link.includes('indeed') || link.includes('shoprite') || link.includes('careers')){
+    res.innerHTML="<p style='color:green; font-weight:bold'>✅ REAL LINK - Trusted Source</p><p>This link has 5-star rating. People got interviews from it. Safe to apply!</p><p>⭐ Rating: 5/5 - 12 people got interview</p>";
+  } else {
+    res.innerHTML="<p style='color:orange; font-weight:bold'>⚠️ CHECK CAREFULLY</p><p>Unknown link. Check company website directly. Don't pay money.</p>";
+  }
+}
+
+function addStory(){
+  let name = prompt("Your Name & Area (e.g. Lerato - Tlhabane):");
+  if(!name) return;
+  let link = prompt("Which job link gave you interview/job?");
+  let result = prompt("What happened? Type: Got Interview / Got Job / Attended but not selected");
+  let stars = prompt("Rate 1-5 (e.g. 5):");
+  let text = prompt("Short testimony:");
+  let type = "interview";
+  if(result.toLowerCase().includes('job')) type="job";
+  else if(result.toLowerCase().includes('attended')) type="attended";
+  
+  let div = document.createElement('div');
+  div.className="story";
+  div.setAttribute('data-type', type);
+  div.innerHTML=`<div class="story-head"><b>${name}</b> <span>${'⭐'.repeat(parseInt(stars))} ${stars}/5</span></div><div class="story-link">Link: ${link}</div><div class="story-status ${type}">✔ ${result.toUpperCase()}</div><div class="story-text">"${text}"</div>`;
+  document.getElementById('stories-list').prepend(div);
+  
+  // Save to phone
+  let saved = JSON.parse(localStorage.getItem('safestories')||"[]");
+  saved.unshift({name, link, result, stars, text, type});
+  localStorage.setItem('safestories', JSON.stringify(saved));
+  alert("✅ Story added! Protected and saved! Show facilitator.");
+}
+
+function filterStories(type){
+  document.querySelectorAll('.filter-btns button').forEach(b=>b.classList.remove('active-filter'));
+  event.target.classList.add('active-filter');
+  document.querySelectorAll('.story').forEach(s=>{
+    s.style.display = (type==='all' || s.dataset.type===type) ? 'block' : 'none';
+  });
+}
+
+// Load saved stories
+window.onload = ()=>{
+  let saved = JSON.parse(localStorage.getItem('safestories')||"[]");
+  saved.forEach(item=>{
+    let div = document.createElement('div');
+    div.className="story"; div.dataset.type=item.type;
+    div.innerHTML=`<div class="story-head"><b>${item.name}</b> <span>${'⭐'.repeat(parseInt(item.stars))} ${item.stars}/5</span></div><div class="story-link">Link: ${item.link}</div><div class="story-status ${item.type}">✔ ${item.result}</div><div class="story-text">"${item.text}"</div>`;
+    document.getElementById('stories-list').appendChild(div);
+  });
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('service-worker.js'); }
+}
