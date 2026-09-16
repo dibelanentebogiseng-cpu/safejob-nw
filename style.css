@@ -1,33 +1,29 @@
-* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-body { background:#eef3ff; color:#222; }
-.protect-bar { background:#000; color:#ffcc00; text-align:center; padding:6px; font-size:11px; font-weight:bold; position:sticky; top:0; z-index:999; }
-.screen { display:none; min-height:100vh; padding:20px; }
-.screen.active { display:block; }
-.card { background:white; padding:20px; border-radius:15px; margin:15px 0; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
-h1 { color:#004aad; text-align:center; }
-h2 { color:#004aad; }
-.subtitle { text-align:center; color:#666; margin-bottom:15px; }
-input { width:100%; padding:12px; margin:10px 0; border:2px solid #004aad; border-radius:10px; font-size:16px; }
-button { width:100%; padding:12px; background:#004aad; color:white; border:none; border-radius:10px; font-size:16px; font-weight:bold; cursor:pointer; }
-button:active { background:#002a66; }
-.small { font-size:11px; color:#888; text-align:center; margin-top:10px; }
-header { display:flex; justify-content:space-between; align-items:center; }
-.logout { width:auto; padding:6px 15px; background:#ff4444; }
-.reference ul { margin:10px 0 10px 20px; font-size:14px; }
-.reference li { margin:5px 0; }
-.stories h2 { text-align:center; }
-.filter-btns { display:flex; gap:5px; margin:10px 0; }
-.filter-btns button { font-size:12px; padding:8px; background:#ddd; color:#333; }
-.filter-btns button.active-filter { background:#004aad; color:white; }
-.story { background:#fff; border-radius:10px; padding:12px; margin:12px 0; border-left:5px solid #004aad; box-shadow:0 2px 5px rgba(0,0,0,0.05); }
-.story-head { display:flex; justify-content:space-between; font-size:14px; }
-.story-link { font-size:12px; color:#555; margin:5px 0; }
-.story-status { font-size:12px; font-weight:bold; padding:4px 8px; border-radius:5px; margin:5px 0; }
-.story-status.interview { background:#e0f0ff; color:#004aad; }
-.story-status.job { background:#d4edda; color:#155724; }
-.story-status.attended { background:#fff3cd; color:#856404; }
-.story-text { font-size:13px; font-style:italic; margin-top:5px; }
-.add-story-btn { background:#00aa55; margin-top:15px; }
-.protect-footer { text-align:center; font-size:10px; color:#999; margin-top:15px; border-top:1px dashed #ccc; padding-top:10px; }
-/* WATERMARK PROTECTION */
-body::after { content:"SafeJob NW © Ntebogiseng Dibelane - PROTECTED - 2026"; position:fixed; bottom:5px; right:5px; font-size:9px; color:rgba(0,0,0,0.15); pointer-events:none; transform:rotate(-15deg); }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#f2f6ff;color:#222}
+.protect-bar{background:#000;color:#ffcc00;text-align:center;padding:6px;font-size:11px;font-weight:bold;position:sticky;top:0;z-index:999}
+.screen{display:none;min-height:100vh;padding:15px}.screen.active{display:block}
+.card{background:#fff;padding:18px;border-radius:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.login-card{max-width:400px;margin:30px auto}
+h1{color:#004aad;text-align:center}.subtitle{text-align:center;color:#666;margin-bottom:12px}
+.login-tabs{display:flex;gap:5px;margin:10px 0}.login-tabs button{flex:1;padding:10px;background:#ddd;border:none;border-radius:8px;font-weight:bold}
+.tab-active{background:#004aad!important;color:#fff!important}
+input{width:100%;padding:12px;margin:8px 0;border:2px solid #004aad;border-radius:10px;font-size:15px}
+button{width:100%;padding:12px;background:#004aad;color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
+button.green{background:#00a859}.logout{width:auto;padding:6px 14px;background:#ff4444}
+.link{color:#004aad;text-align:center;margin:10px 0;font-size:13px;text-decoration:underline;cursor:pointer}
+.small{font-size:11px;color:#888;text-align:center;margin-top:8px}
+header{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:12px 15px;border-radius:12px;margin-bottom:10px}
+.menu-tabs{display:flex;gap:6px;margin:10px 0}.m-tab{flex:1;padding:10px;font-size:12px;background:#ddd;color:#333;border-radius:10px}
+.active-m{background:#004aad!important;color:#fff!important}
+.section{display:none}.active-sec{display:block}
+.drop-header{background:#eef3ff;padding:12px;border-radius:10px;margin:10px 0;cursor:pointer;border:1px solid #cbd5e1}
+.drop-content{padding:10px 0}
+.pro-table{width:100%;border-collapse:collapse;font-size:13px}.pro-table th,.pro-table td{border:1px solid #ddd;padding:8px;text-align:left}.pro-table th{background:#004aad;color:#fff}
+.pro-table.scam th{background:#cc0000}
+.filter-btns{display:flex;gap:5px;margin:10px 0}.filter-btns button{flex:1;padding:8px;font-size:11px;background:#ddd;color:#333}
+.active-filter{background:#004aad!important;color:#fff!important}
+.story{background:#fff;border-radius:12px;padding:12px;margin:10px 0;border-left:5px solid #004aad;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.stars{float:right;font-size:12px}.s-link{font-size:12px;color:#555;margin:4px 0}.s-badge{font-size:11px;font-weight:bold;padding:5px 8px;border-radius:6px;margin:5px 0}
+.s-badge.interview{background:#dbeafe;color:#1e40af}.s-badge.job{background:#dcfce7;color:#166534}.s-badge.attended{background:#fef3c7;color:#92400e}
+.s-text{font-size:13px;font-style:italic}
+.protect-footer{text-align:center;font-size:10px;color:#999;margin:20px 0;border-top:1px dashed #ccc;padding-top:10px}
+body::after{content:"SafeJob NW © Ntebogiseng - PROTECTED";position:fixed;bottom:5px;right:5px;font-size:8px;color:rgba(0,0,0,0.15);pointer-events:none;transform:rotate(-15deg)}
