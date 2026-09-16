@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeJob NW</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#00205B">
+</head>
+<body>
+  <div class="app">
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+      <div class="login-card">
+        <div class="logo-big">S</div>
+        <h1>SafeJob <span>NW</span></h1>
+        <p class="login-sub">Tshireletso • Secure Login</p>
+        
+        <div id="registerForm">
+          <input type="text" id="userName" placeholder="Your name e.g. Lerato" maxlength="20">
+          <input type="password" id="userPin" placeholder="Create 4-digit PIN e.g. 1234" maxlength="4" inputmode="numeric">
+          <button class="btn-check" onclick="registerUser()">Create Account</button>
+          <p class="small-link" onclick="showLoginForm()">Already have account? Login</p>
+        </div>
+
+        <div id="loginForm" style="display:none;">
+          <h2 id="welcomeBack" style="margin-bottom:12px;">Welcome back</h2>
+          <input type="password" id="loginPin" placeholder="Enter your PIN" maxlength="4" inputmode="numeric">
+          <button class="btn-check" onclick="loginUser()">Login</button>
+          <button id="bioBtn" class="btn-bio" onclick="loginWithBiometric()" style="display:none;">👆 Login with Fingerprint</button>
+          <p class="small-link" onclick="showRegisterForm()">New here? Create account</p>
+          <p class="small-link" onclick="resetAccount()" style="color:#EF4444; margin-top:12px;">Forgot PIN? Reset</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN APP (hidden until login) -->
+    <div id="mainApp" style="display:none;">
+      <header>
+        <div class="top">
+          <div class="logo">S</div>
+          <div>
+            <h1>SafeJob <span>NW</span></h1>
+            <div class="sub" id="userGreeting">Tshireletso • Verified</div>
+          </div>
+          <button class="logout" onclick="logoutUser()">Logout</button>
+        </div>
+        <span class="badge">● Works offline • Zero data needed</span>
+      </header>
+
+      <nav>
+        <button class="active" onclick="showTab('check')">Check</button>
+        <button onclick="showTab('verify')">Verify</button>
+        <button onclick="showTab('report')">Report</button>
+        <button onclick="showTab('safety')">Safety</button>
+      </nav>
+
+      <main>
+        <section id="check">
+          <div class="card">
+            <h2 id="greeting">Qaphela, sisi!</h2>
+            <p>Paste the job advert from WhatsApp or Facebook. We'll scan it before you spend taxi money.</p>
+            <textarea id="jobText" placeholder="Paste advert here..."></textarea>
+            <button class="btn-check" onclick="runCheck()">Check Now</button>
+            <div id="result" class="result-placeholder">Your safety result will appear here</div>
+          </div>
+        </section>
+
+        <section id="verify" style="display:none;">
+          <div class="card">
+            <h2>Verified Employers</h2>
+            <input type="text" id="search" placeholder="Search company..." onkeyup="searchCompany()">
+            <div id="companyList"></div>
+          </div>
+        </section>
+
+        <section id="report" style="display:none;">
+          <div class="card">
+            <h2>Report a Scam</h2>
+            <input type="text" id="scamNumber" placeholder="Scammer number">
+            <input type="text" id="scamLocation" placeholder="Location they claimed" style="margin-top:10px;">
+            <textarea id="scamDetails" placeholder="What did they say?" style="height:80px; margin-top:10px;"></textarea>
+            <button class="btn-check" onclick="reportScam()" style="background:#DC2626;">🚨 Report Scam</button>
+            <div id="reportList" style="margin-top:16px;"></div>
+          </div>
+        </section>
+
+        <section id="safety" style="display:none;">
+          <div class="card">
+            <h2>Travel Safety Checklist</h2>
+            <div id="safetyList">
+              <label><input type="checkbox" class="safetyCheck"> Signed offer letter</label>
+              <label><input type="checkbox" class="safetyCheck"> Verified address on Maps</label>
+              <label><input type="checkbox" class="safetyCheck"> Called real company</label>
+              <label><input type="checkbox" class="safetyCheck"> Told family & shared location</label>
+              <label><input type="checkbox" class="safetyCheck"> No upfront payment</label>
+            </div>
+            <div id="safetyResult" class="result-placeholder" style="margin-top:16px;">Complete checklist</div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js');
+    }
+  </script>
+</body>
+</html>
