@@ -1,29 +1,29 @@
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#f2f6ff;color:#222}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f2f6ff}
 .protect-bar{background:#000;color:#ffcc00;text-align:center;padding:6px;font-size:11px;font-weight:bold;position:sticky;top:0;z-index:999}
 .screen{display:none;min-height:100vh;padding:15px}.screen.active{display:block}
-.card{background:#fff;padding:18px;border-radius:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
-.login-card{max-width:400px;margin:30px auto}
-h1{color:#004aad;text-align:center}.subtitle{text-align:center;color:#666;margin-bottom:12px}
-.login-tabs{display:flex;gap:5px;margin:10px 0}.login-tabs button{flex:1;padding:10px;background:#ddd;border:none;border-radius:8px;font-weight:bold}
-.tab-active{background:#004aad!important;color:#fff!important}
-input{width:100%;padding:12px;margin:8px 0;border:2px solid #004aad;border-radius:10px;font-size:15px}
-button{width:100%;padding:12px;background:#004aad;color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
-button.green{background:#00a859}.logout{width:auto;padding:6px 14px;background:#ff4444}
-.link{color:#004aad;text-align:center;margin:10px 0;font-size:13px;text-decoration:underline;cursor:pointer}
-.small{font-size:11px;color:#888;text-align:center;margin-top:8px}
+.card{background:#fff;padding:20px;border-radius:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.login-card{max-width:380px;margin:25px auto}
+h1{color:#004aad;text-align:center}.subtitle{text-align:center;color:#666;margin-bottom:15px}
+input{width:100%;padding:13px;margin:8px 0;border:2px solid #cbd5e1;border-radius:10px;font-size:15px}
+input:focus{border-color:#004aad;outline:none}
+.btn-primary{width:100%;padding:13px;background:#004aad;color:#fff;border:none;border-radius:10px;font-weight:bold;margin:8px 0;cursor:pointer}
+.btn-primary.green{background:#00a859}
+.btn-secondary{width:100%;padding:12px;background:#fff;color:#004aad;border:2px solid #004aad;border-radius:10px;font-weight:bold;margin:6px 0;cursor:pointer}
+.btn-link{width:100%;padding:8px;background:transparent;color:#004aad;border:none;text-decoration:underline;font-size:13px;cursor:pointer;margin:4px 0}
+.row-links{margin-top:10px}
+.logout{width:auto;padding:6px 14px;background:#ff4444;color:#fff;border:none;border-radius:8px}
+.small{font-size:11px;color:#888;text-align:center;margin-top:12px}
 header{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:12px 15px;border-radius:12px;margin-bottom:10px}
-.menu-tabs{display:flex;gap:6px;margin:10px 0}.m-tab{flex:1;padding:10px;font-size:12px;background:#ddd;color:#333;border-radius:10px}
+.menu-tabs{display:flex;gap:6px;margin:10px 0}.m-tab{flex:1;padding:10px;font-size:12px;background:#e2e8f0;color:#333;border:none;border-radius:10px;font-weight:bold}
 .active-m{background:#004aad!important;color:#fff!important}
 .section{display:none}.active-sec{display:block}
-.drop-header{background:#eef3ff;padding:12px;border-radius:10px;margin:10px 0;cursor:pointer;border:1px solid #cbd5e1}
-.drop-content{padding:10px 0}
-.pro-table{width:100%;border-collapse:collapse;font-size:13px}.pro-table th,.pro-table td{border:1px solid #ddd;padding:8px;text-align:left}.pro-table th{background:#004aad;color:#fff}
-.pro-table.scam th{background:#cc0000}
-.filter-btns{display:flex;gap:5px;margin:10px 0}.filter-btns button{flex:1;padding:8px;font-size:11px;background:#ddd;color:#333}
+.drop-header{background:#eef3ff;padding:12px;border-radius:10px;margin:10px 0;cursor:pointer}
+.drop-content{padding:8px 0}
+.pro-table{width:100%;border-collapse:collapse;font-size:13px}.pro-table th,.pro-table td{border:1px solid #ddd;padding:8px}.pro-table th{background:#004aad;color:#fff}
+.filter-btns{display:flex;gap:5px;margin:10px 0}.filter-btns button{flex:1;padding:8px;font-size:11px;background:#e2e8f0;border:none;border-radius:8px}
 .active-filter{background:#004aad!important;color:#fff!important}
 .story{background:#fff;border-radius:12px;padding:12px;margin:10px 0;border-left:5px solid #004aad;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
 .stars{float:right;font-size:12px}.s-link{font-size:12px;color:#555;margin:4px 0}.s-badge{font-size:11px;font-weight:bold;padding:5px 8px;border-radius:6px;margin:5px 0}
 .s-badge.interview{background:#dbeafe;color:#1e40af}.s-badge.job{background:#dcfce7;color:#166534}.s-badge.attended{background:#fef3c7;color:#92400e}
-.s-text{font-size:13px;font-style:italic}
 .protect-footer{text-align:center;font-size:10px;color:#999;margin:20px 0;border-top:1px dashed #ccc;padding-top:10px}
-body::after{content:"SafeJob NW © Ntebogiseng - PROTECTED";position:fixed;bottom:5px;right:5px;font-size:8px;color:rgba(0,0,0,0.15);pointer-events:none;transform:rotate(-15deg)}
