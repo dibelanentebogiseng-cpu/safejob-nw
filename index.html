@@ -3,130 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SafeJob NW PRO © Ntebogiseng</title>
+<title>SafeJob NW</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="protect-bar">🔒 Protected © Ntebogiseng Dibelane 2026 | SJNW-PRO</div>
+<div class="protect-bar">🔒 Protected © Ntebogiseng Dibelane 2026</div>
 
-<!-- LOGIN SCREEN -->
 <div id="login-screen" class="screen active">
   <div class="card login-card">
     <h1>SafeJob NW</h1>
     <p class="subtitle">Qaphela! Job Scam Protection</p>
-    
-    <div class="login-tabs">
-      <button id="tab-login" class="tab-active" onclick="showLoginTab('login')">Login</button>
-      <button id="tab-create" onclick="showLoginTab('create')">Create User</button>
-    </div>
 
+    <!-- LOGIN FORM - DEFAULT -->
     <div id="login-form">
       <input type="text" id="loginName" placeholder="Full Name">
-      <input type="password" id="loginPin" placeholder="Enter PIN (2468)">
-      <button onclick="login()">🔓 Unlock</button>
-      <p class="link" onclick="forgotPin()">Forgot PIN / Password?</p>
+      <input type="password" id="loginPin" placeholder="Enter PIN">
+      <button onclick="login()" class="btn-primary">Login</button>
+      <div class="row-links">
+        <button onclick="showCreate()" class="btn-secondary">Create User</button>
+        <button onclick="forgotPin()" class="btn-link">Forgot PIN?</button>
+      </div>
     </div>
 
+    <!-- CREATE FORM - HIDDEN -->
     <div id="create-form" style="display:none;">
-      <input type="text" id="newName" placeholder="Full Name e.g. Ntebogiseng Dibelane">
+      <h3>Create New Account</h3>
+      <input type="text" id="newName" placeholder="Full Name">
       <input type="text" id="newArea" placeholder="Area e.g. Rustenburg">
-      <input type="password" id="newPin" placeholder="Create 4-digit PIN e.g. 2468">
+      <input type="password" id="newPin" placeholder="Create 4-digit PIN">
       <input type="password" id="confirmPin" placeholder="Confirm PIN">
-      <button onclick="createUser()" class="green">✅ Create Account</button>
-      <p class="link" onclick="showLoginTab('login')">Already have account? Login</p>
+      <button onclick="createUser()" class="btn-primary green">Create Account</button>
+      <button onclick="showLogin()" class="btn-secondary">Back to Login</button>
     </div>
-    <p class="small">Protected • Offline • App ID: SJNW-2026</p>
+
+    <p class="small">Protected • Offline • SJNW-2026</p>
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="main-screen" class="screen">
   <header>
-    <div><b id="welcomeName">Welcome, Ntebogiseng</b><br><small id="welcomeArea">Rustenburg</small></div>
+    <div><b id="welcomeName"></b><br><small id="welcomeArea"></small></div>
     <button onclick="logout()" class="logout">Logout</button>
   </header>
 
-  <!-- PROFESSIONAL MENU - DROPOUTS -->
   <div class="menu-tabs">
-    <button class="m-tab active-m" onclick="openSection('check')">🔍 Check Link</button>
+    <button class="m-tab active-m" onclick="openSection('check')">🔍 Check</button>
     <button class="m-tab" onclick="openSection('reference')">📋 Reference</button>
     <button class="m-tab" onclick="openSection('stories')">⭐ Stories</button>
   </div>
 
-  <!-- SECTION 1: CHECK LINK -->
   <div id="sec-check" class="section active-sec">
     <div class="card">
       <h3>Check Job Link</h3>
-      <input type="text" id="jobLink" placeholder="Paste job link here">
-      <button onclick="checkLink()">Check if Real or Scam</button>
+      <input type="text" id="jobLink" placeholder="Paste job link">
+      <button onclick="checkLink()" class="btn-primary">Check if Real or Scam</button>
       <div id="result"></div>
     </div>
   </div>
 
-  <!-- SECTION 2: REFERENCE - DROPOUT TABLE -->
   <div id="sec-reference" class="section">
     <div class="card">
-      <h3 onclick="toggleDrop('drop-trusted')" class="drop-header">✅ Trusted Links (Got Interviews) ▼</h3>
+      <h3 onclick="toggleDrop('drop-trusted')" class="drop-header">✅ Trusted Links ▼</h3>
       <div id="drop-trusted" class="drop-content">
-        <table class="pro-table">
-          <tr><th>Site</th><th>Interviews</th><th>Rate</th></tr>
-          <tr><td>pnet.co.za</td><td>12</td><td>⭐⭐⭐⭐⭐</td></tr>
-          <tr><td>indeed.com</td><td>8</td><td>⭐⭐⭐⭐⭐</td></tr>
-          <tr><td>careers.shoprite.co.za</td><td>5 jobs</td><td>⭐⭐⭐⭐⭐</td></tr>
-          <tr><td>implats portal</td><td>3 jobs</td><td>⭐⭐⭐⭐</td></tr>
-        </table>
+        <table class="pro-table"><tr><th>Site</th><th>Interviews</th><th>Rate</th></tr>
+        <tr><td>pnet.co.za</td><td>12</td><td>⭐⭐⭐⭐⭐</td></tr>
+        <tr><td>indeed.com</td><td>8</td><td>⭐⭐⭐⭐⭐</td></tr>
+        <tr><td>careers.shoprite.co.za</td><td>5</td><td>⭐⭐⭐⭐⭐</td></tr>
+        <tr><td>implats portal</td><td>3</td><td>⭐⭐⭐⭐</td></tr></table>
       </div>
-
-      <h3 onclick="toggleDrop('drop-scam')" class="drop-header">❌ Scam Links (Blocked) ▼</h3>
+      <h3 onclick="toggleDrop('drop-scam')" class="drop-header">❌ Scam Links ▼</h3>
       <div id="drop-scam" class="drop-content" style="display:none;">
-        <table class="pro-table scam">
-          <tr><th>Scam Type</th><th>Status</th></tr>
-          <tr><td>Whatsapp + R500 fee</td><td>❌ SCAM</td></tr>
-          <tr><td>tinyurl + payment</td><td>❌ SCAM</td></tr>
-          <tr><td>gmail only, no company</td><td>❌ SCAM</td></tr>
-        </table>
+        <table class="pro-table scam"><tr><th>Type</th><th>Status</th></tr>
+        <tr><td>Whatsapp + fee</td><td>SCAM</td></tr><tr><td>tinyurl + payment</td><td>SCAM</td></tr></table>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 3: SUCCESS STORIES - DROPOUTS -->
   <div id="sec-stories" class="section">
     <div class="card">
       <h2>⭐ Success Stories</h2>
-      <p class="small">Filter by result</p>
       <div class="filter-btns">
         <button onclick="filterStories('all')" class="active-filter">All</button>
         <button onclick="filterStories('interview')">Interview</button>
-        <button onclick="filterStories('job')">Got Job</button>
+        <button onclick="filterStories('job')">Job</button>
         <button onclick="filterStories('attended')">Attended</button>
       </div>
-      
       <div id="stories-list">
-        <div class="story" data-type="interview">
-          <b>Keabetswe M. - Tlhabane</b> <span class="stars">⭐⭐⭐⭐⭐ 5/5</span>
-          <p class="s-link">Shoprite Cashier - Rustenburg Mall</p>
-          <div class="s-badge interview">✔ GOT INTERVIEW - Attended 12 May 2026</div>
-          <p class="s-text">"SafeJob said REAL, got call in 2 days!"</p>
-        </div>
-        <div class="story" data-type="job">
-          <b>Thabo L. - Boitekong</b> <span class="stars">⭐⭐⭐⭐⭐ 5/5</span>
-          <p class="s-link">Mine General Worker - Impala</p>
-          <div class="s-badge job">✔ GOT JOB - Started 1 June 2026</div>
-          <p class="s-text">"Verified, now employed! Reference available."</p>
-        </div>
-        <div class="story" data-type="attended">
-          <b>Ntombi K. - Lethabong</b> <span class="stars">⭐⭐⭐⭐ 4/5</span>
-          <p class="s-link">Cleaner - Waterfall Mall (pnet.co.za)</p>
-          <div class="s-badge attended">✔ ATTENDED - Not selected but REAL</div>
-          <p class="s-text">"Interview was legit. SafeJob protected me."</p>
-        </div>
+        <div class="story" data-type="interview"><b>Keabetswe M. - Tlhabane</b><span class="stars">⭐⭐⭐⭐⭐</span><p class="s-link">Shoprite Cashier</p><div class="s-badge interview">✔ GOT INTERVIEW - 12 May 2026</div></div>
+        <div class="story" data-type="job"><b>Thabo L. - Boitekong</b><span class="stars">⭐⭐⭐⭐⭐</span><p class="s-link">Mine Worker - Impala</p><div class="s-badge job">✔ GOT JOB - 1 June 2026</div></div>
+        <div class="story" data-type="attended"><b>Ntombi K. - Lethabong</b><span class="stars">⭐⭐⭐⭐</span><p class="s-link">Cleaner - Waterfall Mall</p><div class="s-badge attended">✔ ATTENDED - Real interview</div></div>
       </div>
-      <button onclick="addStory()" class="green" style="margin-top:15px;">+ Add Your Story</button>
+      <button onclick="addStory()" class="btn-primary green">+ Add Your Story</button>
     </div>
   </div>
-
-  <div class="protect-footer">🔒 Protected by Ntebogiseng Dibelane © 2026<br>App ID: SJNW-2026-RUSTENBURG-PROTECTED</div>
+  <div class="protect-footer">🔒 Protected by Ntebogiseng Dibelane © 2026</div>
 </div>
 <script src="app.js"></script>
 </body>
