@@ -4,101 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SafeJob NW</title>
-<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
 </head>
 <body>
-<div class="protect-bar">🔒 Protected © Ntebogiseng Dibelane 2026</div>
+<div class="top-bar">🔒 Protected © Ntebogiseng Dibelane 2026</div>
 
-<div id="login-screen" class="screen active">
-  <div class="card login-card">
-    <h1>SafeJob NW</h1>
-    <p class="subtitle">Qaphela! Job Scam Protection</p>
-
-    <!-- LOGIN FORM - DEFAULT -->
-    <div id="login-form">
-      <input type="text" id="loginName" placeholder="Full Name">
-      <input type="password" id="loginPin" placeholder="Enter PIN">
-      <button onclick="login()" class="btn-primary">Login</button>
-      <div class="row-links">
-        <button onclick="showCreate()" class="btn-secondary">Create User</button>
-        <button onclick="forgotPin()" class="btn-link">Forgot PIN?</button>
-      </div>
-    </div>
-
-    <!-- CREATE FORM - HIDDEN -->
-    <div id="create-form" style="display:none;">
-      <h3>Create New Account</h3>
-      <input type="text" id="newName" placeholder="Full Name">
-      <input type="text" id="newArea" placeholder="Area e.g. Rustenburg">
-      <input type="password" id="newPin" placeholder="Create 4-digit PIN">
-      <input type="password" id="confirmPin" placeholder="Confirm PIN">
-      <button onclick="createUser()" class="btn-primary green">Create Account</button>
-      <button onclick="showLogin()" class="btn-secondary">Back to Login</button>
-    </div>
-
-    <p class="small">Protected • Offline • SJNW-2026</p>
-  </div>
+<!-- LOGIN PAGE -->
+<div id="login-page" class="card">
+  <h1 class="logo">SafeJob NW</h1>
+  <p class="subtitle">Qaphela! Job Scam Protection</p>
+  <input type="text" id="fullName" placeholder="Full Name">
+  <input type="password" id="pin" placeholder="Enter PIN" maxlength="4" inputmode="numeric">
+  <button class="btn-primary" onclick="login()">Login</button>
+  <button class="btn-secondary" onclick="createUser()">Create User</button>
+  <a href="#" onclick="forgotPin()" class="link">Forgot PIN?</a>
+  <p class="small">Protected • Offline • SJNW-2026</p>
 </div>
 
-<div id="main-screen" class="screen">
-  <header>
-    <div><b id="welcomeName"></b><br><small id="welcomeArea"></small></div>
-    <button onclick="logout()" class="logout">Logout</button>
-  </header>
-
-  <div class="menu-tabs">
-    <button class="m-tab active-m" onclick="openSection('check')">🔍 Check</button>
-    <button class="m-tab" onclick="openSection('reference')">📋 Reference</button>
-    <button class="m-tab" onclick="openSection('stories')">⭐ Stories</button>
-  </div>
-
-  <div id="sec-check" class="section active-sec">
-    <div class="card">
-      <h3>Check Job Link</h3>
-      <input type="text" id="jobLink" placeholder="Paste job link">
-      <button onclick="checkLink()" class="btn-primary">Check if Real or Scam</button>
-      <div id="result"></div>
+<!-- DASHBOARD PAGE -->
+<div id="dashboard" class="hidden">
+  <div class="header">
+    <div class="avatar">S</div>
+    <div>
+      <h2>SafeJob <span>NW</span></h2>
+      <p id="welcome-msg">Hello, Ntebogiseng Dibelane • Verified</p>
     </div>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+  <div class="badge">● Works offline • Zero data needed</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('check')">Check</button>
+    <button class="tab" onclick="showTab('verify')">Verify</button>
+    <button class="tab" onclick="showTab('report')">Report</button>
+    <button class="tab" onclick="showTab('safety')">Safety</button>
   </div>
 
-  <div id="sec-reference" class="section">
-    <div class="card">
-      <h3 onclick="toggleDrop('drop-trusted')" class="drop-header">✅ Trusted Links ▼</h3>
-      <div id="drop-trusted" class="drop-content">
-        <table class="pro-table"><tr><th>Site</th><th>Interviews</th><th>Rate</th></tr>
-        <tr><td>pnet.co.za</td><td>12</td><td>⭐⭐⭐⭐⭐</td></tr>
-        <tr><td>indeed.com</td><td>8</td><td>⭐⭐⭐⭐⭐</td></tr>
-        <tr><td>careers.shoprite.co.za</td><td>5</td><td>⭐⭐⭐⭐⭐</td></tr>
-        <tr><td>implats portal</td><td>3</td><td>⭐⭐⭐⭐</td></tr></table>
-      </div>
-      <h3 onclick="toggleDrop('drop-scam')" class="drop-header">❌ Scam Links ▼</h3>
-      <div id="drop-scam" class="drop-content" style="display:none;">
-        <table class="pro-table scam"><tr><th>Type</th><th>Status</th></tr>
-        <tr><td>Whatsapp + fee</td><td>SCAM</td></tr><tr><td>tinyurl + payment</td><td>SCAM</td></tr></table>
-      </div>
-    </div>
+  <!-- CHECK TAB -->
+  <div id="tab-check" class="card">
+    <h3 id="greeting">Qaphela, Ntebogiseng Dibelane!</h3>
+    <p>Paste the job advert from WhatsApp or Facebook. We'll scan it before you spend taxi money.</p>
+    <textarea id="jobInput" placeholder="Paste advert here or paste job link..."></textarea>
+    <button class="btn-primary dark" onclick="checkJob()">Check Now</button>
+    <div id="result" class="result-box">Your safety result will appear here</div>
   </div>
 
-  <div id="sec-stories" class="section">
-    <div class="card">
-      <h2>⭐ Success Stories</h2>
-      <div class="filter-btns">
-        <button onclick="filterStories('all')" class="active-filter">All</button>
-        <button onclick="filterStories('interview')">Interview</button>
-        <button onclick="filterStories('job')">Job</button>
-        <button onclick="filterStories('attended')">Attended</button>
-      </div>
-      <div id="stories-list">
-        <div class="story" data-type="interview"><b>Keabetswe M. - Tlhabane</b><span class="stars">⭐⭐⭐⭐⭐</span><p class="s-link">Shoprite Cashier</p><div class="s-badge interview">✔ GOT INTERVIEW - 12 May 2026</div></div>
-        <div class="story" data-type="job"><b>Thabo L. - Boitekong</b><span class="stars">⭐⭐⭐⭐⭐</span><p class="s-link">Mine Worker - Impala</p><div class="s-badge job">✔ GOT JOB - 1 June 2026</div></div>
-        <div class="story" data-type="attended"><b>Ntombi K. - Lethabong</b><span class="stars">⭐⭐⭐⭐</span><p class="s-link">Cleaner - Waterfall Mall</p><div class="s-badge attended">✔ ATTENDED - Real interview</div></div>
-      </div>
-      <button onclick="addStory()" class="btn-primary green">+ Add Your Story</button>
-    </div>
+  <!-- VERIFY TAB -->
+  <div id="tab-verify" class="card hidden">
+    <h3>Reference Check</h3>
+    <p>Check common scam signs offline.</p>
+    <ul class="list">
+      <li>❌ Asks for money / R200 for uniform</li>
+      <li>❌ Gmail only, no company website</li>
+      <li>❌ WhatsApp only interview</li>
+      <li>❌ "Pay to get job" </li>
+      <li>✅ Real company has address & landline</li>
+    </ul>
   </div>
-  <div class="protect-footer">🔒 Protected by Ntebogiseng Dibelane © 2026</div>
+
+  <!-- REPORT TAB -->
+  <div id="tab-report" class="card hidden">
+    <h3>Report Scam</h3>
+    <input type="text" id="reportLink" placeholder="Paste scam number or link">
+    <button class="btn-primary" onclick="reportScam()">Save Report Offline</button>
+    <div id="reportList"></div>
+  </div>
+
+  <!-- SAFETY TAB -->
+  <div id="tab-safety" class="card hidden">
+    <h3>Safety Tips for Rustenburg</h3>
+    <p>1. Never pay for a job.<br>2. Verify at Department of Labour.<br>3. Don't go alone to interview.<br>4. Tell family where you go.</p>
+  </div>
+
+  <p class="footer">🔒 Protected by Ntebogiseng Dibelane © 2026</p>
 </div>
+
 <script src="app.js"></script>
 </body>
 </html>
