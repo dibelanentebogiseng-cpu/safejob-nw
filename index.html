@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SafeJob NW</title>
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<div class="top-bar">🔒 Protected © Ntebogiseng Dibelane 2026</div>
+<div class="top-bar">🔒 Protected © Ntebogiseng Dibelane 2026 - SafeJob NW - NW-2026-Protected</div>
 
-<!-- LOGIN PAGE -->
 <div id="login-page" class="card">
   <h1 class="logo">SafeJob NW</h1>
   <p class="subtitle">Qaphela! Job Scam Protection</p>
@@ -19,67 +17,68 @@
   <button class="btn-primary" onclick="login()">Login</button>
   <button class="btn-secondary" onclick="createUser()">Create User</button>
   <a href="#" onclick="forgotPin()" class="link">Forgot PIN?</a>
-  <p class="small">Protected • Offline • SJNW-2026</p>
+  <p class="small">🔒 Protected • Offline • SJNW-2026 • Ntebogiseng Dibelane</p>
 </div>
 
-<!-- DASHBOARD PAGE -->
 <div id="dashboard" class="hidden">
   <div class="header">
     <div class="avatar">S</div>
-    <div>
-      <h2>SafeJob <span>NW</span></h2>
-      <p id="welcome-msg">Hello, Ntebogiseng Dibelane • Verified</p>
-    </div>
+    <div><h2>SafeJob <span>NW</span></h2><p id="welcome-msg"></p></div>
     <button class="logout" onclick="logout()">Logout</button>
   </div>
-  <div class="badge">● Works offline • Zero data needed</div>
+  <div class="badge">● Works offline • Zero data needed • 🔒 Protected</div>
 
   <div class="tabs">
-    <button class="tab active" onclick="showTab('check')">Check</button>
-    <button class="tab" onclick="showTab('verify')">Verify</button>
-    <button class="tab" onclick="showTab('report')">Report</button>
-    <button class="tab" onclick="showTab('safety')">Safety</button>
+    <button class="tab active" onclick="showTab('check', this)">Check</button>
+    <button class="tab" onclick="showTab('stories', this)">⭐ Stories</button>
+    <button class="tab" onclick="showTab('verify', this)">Verify</button>
+    <button class="tab" onclick="showTab('safety', this)">Safety</button>
   </div>
 
-  <!-- CHECK TAB -->
   <div id="tab-check" class="card">
-    <h3 id="greeting">Qaphela, Ntebogiseng Dibelane!</h3>
+    <h3 id="greeting"></h3>
     <p>Paste the job advert from WhatsApp or Facebook. We'll scan it before you spend taxi money.</p>
     <textarea id="jobInput" placeholder="Paste advert here or paste job link..."></textarea>
     <button class="btn-primary dark" onclick="checkJob()">Check Now</button>
     <div id="result" class="result-box">Your safety result will appear here</div>
   </div>
 
-  <!-- VERIFY TAB -->
-  <div id="tab-verify" class="card hidden">
-    <h3>Reference Check</h3>
-    <p>Check common scam signs offline.</p>
-    <ul class="list">
-      <li>❌ Asks for money / R200 for uniform</li>
-      <li>❌ Gmail only, no company website</li>
-      <li>❌ WhatsApp only interview</li>
-      <li>❌ "Pay to get job" </li>
-      <li>✅ Real company has address & landline</li>
-    </ul>
+  <div id="tab-stories" class="card hidden">
+    <h3>⭐ People Who Used SafeJob NW</h3>
+    <p style="color:green;font-weight:bold;">✅ Verified References - Proof it's legit & safe</p>
+    <div id="storiesList"></div>
+    <div style="margin-top:15px;background:#eef6ff;padding:12px;border-radius:12px;border-left:4px solid #0b4dad;">
+      <b>🔒 Protection Certificate:</b><br>
+      App Name: SafeJob NW<br>
+      Developer: Ntebogiseng Dibelane<br>
+      ID: NW-2026-SJNW-771<br>
+      Status: Protected & Safe • 2026<br>
+      Location: Rustenburg, North West
+    </div>
   </div>
 
-  <!-- REPORT TAB -->
-  <div id="tab-report" class="card hidden">
-    <h3>Report Scam</h3>
+  <div id="tab-verify" class="card hidden">
+    <h3>📋 How to Verify a Job is Real</h3>
+    <ul class="list">
+      <li>✅ Real job has physical address + landline</li>
+      <li>✅ Company email ends with.co.za not Gmail</li>
+      <li>❌ Never pay R200/R150 for uniform or training</li>
+      <li>❌ WhatsApp-only interview = SCAM</li>
+    </ul>
+    <h4>Report Scam Number Here:</h4>
     <input type="text" id="reportLink" placeholder="Paste scam number or link">
     <button class="btn-primary" onclick="reportScam()">Save Report Offline</button>
     <div id="reportList"></div>
   </div>
 
-  <!-- SAFETY TAB -->
   <div id="tab-safety" class="card hidden">
-    <h3>Safety Tips for Rustenburg</h3>
-    <p>1. Never pay for a job.<br>2. Verify at Department of Labour.<br>3. Don't go alone to interview.<br>4. Tell family where you go.</p>
+    <h3>🛡️ Safety Tips for Rustenburg</h3>
+    <p>1. Never pay for a job.<br>2. Verify at Department of Labour.<br>3. Don't go alone to interview.<br>4. Tell family where you go.<br>5. Use SafeJob NW before you pay taxi.</p>
+    <p style="margin-top:15px"><b>🔒 This app is Protected by Ntebogiseng Dibelane © 2026 - Safe to use offline.</b></p>
   </div>
 
-  <p class="footer">🔒 Protected by Ntebogiseng Dibelane © 2026</p>
+  <p class="footer">🔒 Protected by Ntebogiseng Dibelane © 2026 | SafeJob NW - Verified & Safe</p>
 </div>
-
 <script src="app.js"></script>
 </body>
 </html>
